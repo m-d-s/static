@@ -8,12 +8,14 @@ public class Return extends Stmt {
     /** The value that should be returned (or else null).
      */
     private Expr exp;
-
+ 
     /** Default constructor.
      */
     public Return(Expr exp) {
         this.exp = exp;
     }
+
+    private Type type = null;
 
     /** Print an indented description of this abstract syntax node,
      *  including a name for the node itself at the specified level
@@ -28,4 +30,11 @@ public class Return extends Stmt {
             exp.indent(out, n+1);
         }
     }
+
+    public TypeEnv check(Context ctxt, TypeEnv locals)
+      throws Failure {
+        type = exp.typeOf(ctxt, locals);
+        return locals;
+    }
+
 }

@@ -30,4 +30,20 @@ public class While extends Stmt {
         test.indent(out, n+1);
         body.indent(out, n+1);
     }
+
+    /**
+     * Type check this statement, using passed context and type
+     * environment. Returns the passed type environment:wq
+     */
+    public TypeEnv check(Context ctxt, TypeEnv locals)
+      throws Failure {
+        TypeEnv inner = locals;
+        if(test.typeOf(ctxt, locals).equals(Type.BOOLEAN)) {
+            inner = body.check(ctxt, inner);
+            return locals;
+        }
+        else
+            throw new Failure("WhileBoolean");
+    }
+
 }

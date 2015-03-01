@@ -48,4 +48,16 @@ public class If extends Stmt {
             ifFalse.indent(out, n+1);
         }
     }
+
+    public TypeEnv check(Context ctxt, TypeEnv locals) 
+        throws Failure {
+        TypeEnv tTE = locals, fTE = locals;
+        if(test.typeOf(ctxt, locals).equals(Type.BOOLEAN)) {
+            tTE = ifTrue.check(ctxt, tTE);
+            fTE = ifFalse.check(ctxt, fTE);
+            return locals; 
+        }
+        else
+            throw new Failure( "IfBoolean" );
+    }
 }
