@@ -32,4 +32,10 @@ public class Locals extends InitStmt {
            vars[i].indent(out, n+1);
         }
     }
+
+//    public TypeEnv check(Context ctxt, TypeEnv locals)
+//        throws Failure {
+//
+//    }
+
 }

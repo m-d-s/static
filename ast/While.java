@@ -38,12 +38,14 @@ public class While extends Stmt {
     public TypeEnv check(Context ctxt, TypeEnv locals)
       throws Failure {
         TypeEnv inner = locals;
-        if(test.typeOf(ctxt, locals).equals(Type.BOOLEAN)) {
-            inner = body.check(ctxt, inner);
-            return locals;
+        try {
+            if (!test.typeOf(ctxt, locals).equals(Type.BOOLEAN))
+                ctxt.report( new Failure( "WhileBoolean" ));
+        }catch (Failure f) {
+            ctxt.report(f);
         }
-        else
-            throw new Failure("WhileBoolean");
+        inner = body.check(ctxt, inner);
+        return locals;
     }
 
 }

@@ -52,12 +52,15 @@ public class If extends Stmt {
     public TypeEnv check(Context ctxt, TypeEnv locals) 
         throws Failure {
         TypeEnv tTE = locals, fTE = locals;
-        if(test.typeOf(ctxt, locals).equals(Type.BOOLEAN)) {
-            tTE = ifTrue.check(ctxt, tTE);
-            fTE = ifFalse.check(ctxt, fTE);
-            return locals; 
+        try {
+            if (!test.typeOf(ctxt, locals).equals(Type.BOOLEAN)) {
+                ctxt.report( new Failure( "IfBoolean" ));
+            }
+        }catch (Failure f) {
+            ctxt.report(f);
         }
-        else
-            throw new Failure( "IfBoolean" );
+        tTE = ifTrue.check(ctxt, tTE);
+        fTE = ifFalse.check(ctxt, fTE);
+        return locals;
     }
 }

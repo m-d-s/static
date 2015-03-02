@@ -23,4 +23,18 @@ public class ExprStmt extends InitStmt {
         out.indent(n, "ExprStmt");
         exp.indent(out, n+1);
     }
+
+    /*
+       type check the statement expression and report any errors made
+       during the process
+     */
+    public TypeEnv check( Context ctxt, TypeEnv locals)
+        throws Failure {
+        try{
+            exp.typeOf(ctxt, locals);
+        }catch (Failure f){
+            ctxt.report(f);
+        }
+        return locals;
+    }
 }
